@@ -5,13 +5,19 @@ const outputParser = require('../lib/output-parser');
 
 describe('Output parser', () => {
   let parser;
+
+  after(() => {
+    console.log.restore();
+    fs.writeFile.restore();
+  });
   describe('console.log', () => {
+    const spy = sinon.spy(console, 'log');;
     before(() => {
       parser = outputParser.useConsole();
     });
 
     it('has console has default output', () => {
-      assert(parser.console)
+      assert(!parser.file)
     });
 
     it('has no header nor footer', () => {
@@ -23,11 +29,20 @@ describe('Output parser', () => {
 
     it('returns a row', () => { returnsRow(parser); });
 
-    it('returns final output', () => {
-      const spy = sinon.spy(console, 'log');
-      const output = '|  | 1| 3| 5|';
+    it('prints final output', () => {
+      const output = '|  | 2| 3| 5|';
       parser.print(output)
-      assert(spy.calledWith(output));
+      assert(spy.calledWith(parser.header + output + parser.footer));
+    });
+
+    it('prints and returns final output,', (done) => {
+      const output = '|  | 2| 3| 5|';
+      parser.print(output, (err, output) => {
+        const o = parser.header + output + parser.footer;
+        assert(spy.calledWith(o));
+        assert(o === output);
+        done(err, output)
+      })
     });
   });
 
@@ -38,7 +53,7 @@ describe('Output parser', () => {
     });
 
     it('has file has default output', () => {
-      assert(!parser.console)
+      assert(parser.file)
     });
 
     it('has a filename', () => {
