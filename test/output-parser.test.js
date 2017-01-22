@@ -59,7 +59,7 @@ describe('Output parser', () => {
 
       const output = 'output';
       parser.print(output)
-      assert(spy.calledWith(parser.header + output + parser.footer));
+      assert(spy.calledWith(parser.filename, parser.header + output + parser.footer));
     });
   });
 });
