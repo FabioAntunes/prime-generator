@@ -4,8 +4,18 @@ const sinon = require('sinon')
 
 describe('Output parser', () => {
   describe('console.log', () => {
+
+    before(() => {
+      outputParser.useConsole();
+    });
+
     it('has console has default output', () => {
       assert(!outputParser.file)
+    });
+
+    it('has no header nor footer', () => {
+      assert(outputParser.header === '')
+      assert(outputParser.footer === '')
     });
 
     it('returns a column', () => {
