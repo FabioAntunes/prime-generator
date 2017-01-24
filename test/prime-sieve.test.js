@@ -5,7 +5,7 @@ const iterator = primeSieve();
 
 describe('Prime Sieve', () => {
   it('returns always a prime number', done => {
-    for (var i = 0; i < 1000; i++) {
+    for (var i = 0; i < 20000; i++) {
       assert(isPrime(iterator.next().value))
     }
     done()
