@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha --recursive test",
-    "start": "node index.js",
-    "with-file": "npm run start -- 10 true"
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "Fábio Antunes",
